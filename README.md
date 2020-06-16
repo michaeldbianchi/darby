@@ -1,4 +1,4 @@
-# Data Analysis in RuBY (DARby)
+# Data Analysis in Ruby (DARby)
 
 ## Setup
 
