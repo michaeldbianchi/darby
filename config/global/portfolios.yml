@@ -1,0 +1,9 @@
+default:
+  stock: &stock
+    - name: total_stock
+      type: stock
+      stocks:
+        - symbol: "VTI"
+          weight: 1.0
+  all:
+    - *stock

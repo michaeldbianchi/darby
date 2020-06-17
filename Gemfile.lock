@@ -27,6 +27,8 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
+    activemodel (6.0.3.1)
+      activesupport (= 6.0.3.1)
     activesupport (6.0.3.1)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 0.7, < 2)
@@ -53,6 +55,8 @@ GEM
       ffi-rzmq-core (>= 1.0.7)
     ffi-rzmq-core (1.0.7)
       ffi
+    global (2.0.0)
+      activesupport (>= 2.0)
     google_visualr (2.5.1)
     hash-deep-merge (0.1.1)
     httparty (0.18.1)
@@ -120,10 +124,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activemodel
   alphavantagerb
   daru!
   daru-view!
   ffi-rzmq
+  global
   iruby
   pry-byebug
   rbczmq
