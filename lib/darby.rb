@@ -1,7 +1,14 @@
 
 $:.unshift(__dir__)
 
-require 'initializers/global'
+require 'pry'
+require 'active_model'
+require 'daru'
 
-require 'darby/alpha_vantage'
-require 'darby/portfolio'
+require "initializers/global"
+
+require "zeitwerk"
+loader = Zeitwerk::Loader.for_gem
+loader.setup
+
+module Darby; end

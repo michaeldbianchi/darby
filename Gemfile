@@ -10,6 +10,7 @@ gem "daru-view", :git => "https://github.com/SciRuby/daru-view"
 gem "daru", git: "https://github.com/SciRuby/daru.git"
 gem "global"
 gem "activemodel"
+gem "zeitwerk"
 
 group :development, :test do
   gem "pry-byebug"
@@ -18,4 +19,3 @@ end
 group :test do
   gem "rspec"
 end
-

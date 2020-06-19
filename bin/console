@@ -5,4 +5,8 @@ $:.unshift("lib")
 require "darby"
 
 require "pry"
+
+@s = Darby::Stock.all.first
+puts @s
+
 Pry.start

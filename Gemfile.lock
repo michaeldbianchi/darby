@@ -134,6 +134,7 @@ DEPENDENCIES
   pry-byebug
   rbczmq
   rspec
+  zeitwerk
 
 BUNDLED WITH
    2.1.4

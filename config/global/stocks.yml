@@ -2,8 +2,6 @@ default:
   stock: &stock
     - name: total_stock
       type: stock
-      holdings:
-        - symbol: "VTI"
-          weight: 1.0
+      symbol: "VTI"
   all:
     - *stock
