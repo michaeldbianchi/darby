@@ -3,5 +3,8 @@ default:
     - name: total_stock
       type: stock
       symbol: "VTI"
+    - name: total_bond
+      type: stock
+      symbol: "BND"
   all:
     - *stock

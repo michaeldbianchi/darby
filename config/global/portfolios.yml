@@ -5,5 +5,12 @@ default:
       holdings:
         - symbol: "VTI"
           weight: 1.0
+    - name: 80_20_bonds
+      type: stock
+      holding:
+        - symbol: "VTI"
+          weight: 0.8
+        - symbol: "BND"
+          weight: 0.2
   all:
     - *stock
