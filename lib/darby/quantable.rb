@@ -15,18 +15,11 @@ module Darby
 
     # TODO: Handle a freq that sums up data_vector
     def stats_df(date_range: @date_range, dataset_size: @dataset_size)
-      Daru::DataFrame.new(
+      @stats_df = Daru::DataFrame.new(
         adjusted_close: data_vector(date_range: date_range, dataset_size: dataset_size),
         percent_change: percent_change,
       )
       # bc rolling blows up if there aren't enough elements
-      # rolling returns don't work well bc can't easily identify # of elements = a year
-      # @stats_df[:rolling_1yr_return] = rolling_returns(time_range: "1y") if data_vector.size > 365
-      # @stats_df[:rolling_5yr_return] = rolling_returns(time_range: "5y") if data_vector.size > 365 * 5
-      # @stats_df[:rolling_10yr_return] = rolling_returns(time_range: "10y") if data_vector.size > 365 * 10
-      # @stats_df[:rolling_annualized_1yr_return] = rolling_annualized_returns(time_range: "1y") if data_vector.size > 365
-      # @stats_df[:rolling_annualized_5yr_return] = rolling_annualized_returns(time_range: "5y") if data_vector.size > 365 * 5
-      # @stats_df[:rolling_annualized_10yr_return] = rolling_annualized_returns(time_range: "10y") if data_vector.size > 365 * 10
       @stats_df[:rolling_drawdown_percentage] = rolling_drawdown_percentage if data_vector.size > 13
       @stats_df
     end
