@@ -6,7 +6,7 @@ gem "ffi-rzmq"
 gem "iruby"
 
 gem "alphavantagerb"
-gem "daru-view", :git => "https://github.com/SciRuby/daru-view"
+gem "daru-view", :git => "https://github.com/michaeldbianchi/daru-view"
 gem "daru", git: "https://github.com/SciRuby/daru.git"
 gem "global"
 gem "activemodel"

@@ -39,7 +39,9 @@ module Darby
     end
 
     def normalized_data_vector(date_range: nil, weight: 1.0)
-      normalize_vector(data_vector(date_range: date_range), weight: weight)
+      vector = data_vector(date_range: date_range)
+      stock_count = (default_amount * weight) / vector[0]
+      vector * stock_count
     end
 
     def returns_for_timeframe(timeframe:)
@@ -79,11 +81,6 @@ module Darby
     def filter_vector(vector:, date_range: nil, dataset_size: nil)
       v = date_range.nil? ? vector : vector[date_range.first.to_s..date_range.last.to_s]
       dataset_size.nil? ? v : v.last(dataset_size)
-    end
-
-    def normalize_vector(vector, weight: 1.0)
-      stock_count = (default_amount * weight) / vector[0]
-      vector * stock_count
     end
 
     def timeframe_to_days(timeframe:)

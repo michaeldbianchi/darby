@@ -5,7 +5,7 @@ module Darby
     include ActiveModel::Validations
 
     REQUIRED_ATTRIBUTES = %i[name type symbol]
-    ALLOWED_ATTRIBUTES = REQUIRED_ATTRIBUTES + %i[date_range dataset_size]
+    ALLOWED_ATTRIBUTES = REQUIRED_ATTRIBUTES + %i[date_range dataset_size weight]
     CONFIG = :stocks
 
     validates_presence_of *REQUIRED_ATTRIBUTES
@@ -17,6 +17,10 @@ module Darby
 
     def stock
       @stock ||= AlphaVantage.client.stock(symbol: symbol)
+    end
+
+    def weight
+      @weight ||= 1.0
     end
 
     def timeseries
@@ -37,6 +41,10 @@ module Darby
       date_index.minmax.first
       # can just use min while using an arrays of dates
       # date_index.min
+    end
+
+    def latest_date
+      date_index.max
     end
 
     def transform_dates(data_array)

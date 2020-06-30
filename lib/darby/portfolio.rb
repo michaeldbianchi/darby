@@ -1,6 +1,7 @@
 module Darby
   class Portfolio
     include Configurable
+    include Quantable
     include ActiveModel::Validations
 
     REQUIRED_ATTRIBUTES = %i[name type holdings]
@@ -10,8 +11,18 @@ module Darby
     validates_presence_of *REQUIRED_ATTRIBUTES
     attr_accessor *ALLOWED_ATTRIBUTES
 
+    def data_vector
+      latest_start_date = stocks.map(&:earliest_date).max.to_date
+      earliest_end_date = stocks.map(&:latest_date).min.to_date
+      stock_hash = stocks.each_with_object({}) do |stock, acc|
+        acc[stock.symbol] = stock.normalized_data_vector(date_range: latest_start_date..earliest_end_date, weight: stock.weight)
+      end
+      df = Daru::DataFrame.new(stock_hash)
+      df.vector_sum
+    end
+
     def stocks
-      @stocks ||= holdings.map { |stock| AlphaVantage.client.stock(symbol: stock[:symbol])}
+      @stocks ||= holdings.map { |stock| Darby::Stock.new(stock) }
     end
 
     def to_s
