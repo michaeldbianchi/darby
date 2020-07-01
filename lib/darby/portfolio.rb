@@ -11,14 +11,17 @@ module Darby
     validates_presence_of *REQUIRED_ATTRIBUTES
     attr_accessor *ALLOWED_ATTRIBUTES
 
-    def data_vector
-      latest_start_date = stocks.map(&:earliest_date).max.to_date
-      earliest_end_date = stocks.map(&:latest_date).min.to_date
-      stock_hash = stocks.each_with_object({}) do |stock, acc|
-        acc[stock.symbol] = stock.normalized_data_vector(date_range: latest_start_date..earliest_end_date, weight: stock.weight)
+    def data_vector(date_range: nil, dataset_size: nil)
+      @data_vector ||= begin
+        latest_start_date = stocks.map(&:earliest_date).max.to_date
+        earliest_end_date = stocks.map(&:latest_date).min.to_date
+        stock_hash = stocks.each_with_object({}) do |stock, acc|
+          acc[stock.symbol] = stock.normalized_data_vector(date_range: latest_start_date..earliest_end_date, weight: stock.weight)
+        end
+        df = Daru::DataFrame.new(stock_hash)
+
+        filter_vector(vector: df.vector_sum, date_range: date_range, dataset_size: dataset_size)
       end
-      df = Daru::DataFrame.new(stock_hash)
-      df.vector_sum
     end
 
     def stocks

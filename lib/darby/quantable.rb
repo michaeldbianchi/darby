@@ -13,7 +13,6 @@ module Darby
       Daru::DataFrame.new(index: normalized_data_vector.index, adjusted_close: normalized_data_vector)
     end
 
-    # TODO: Handle a freq that sums up data_vector
     def stats_df(date_range: @date_range, dataset_size: @dataset_size)
       @stats_df = Daru::DataFrame.new(
         adjusted_close: data_vector(date_range: date_range, dataset_size: dataset_size),
@@ -69,14 +68,23 @@ module Darby
       ((1 + returns(start_date: start_date, end_date: end_date)) ** (365 / (end_date - start_date))) - 1
     end
 
-    def find_date(date:)
-      if data_vector.index.first > date
-        puts "lookback for #{date} is older than oldest date #{data_vector.index.first}. Using oldest date."
-        date = data_vector.index.first
-      end
-      date = date.to_date if date.is_a?(DateTime)
-      data_vector[date.to_s].blank? ? find_date(date: date - 1) : date
+    def percent_change
+      data_vector.percent_change
     end
+
+    def ytd
+      returns(start_date: data_vector.index[Date.today.year.to_s].first, end_date: Date.today)
+    end
+
+    def volatility
+      root_mean_square(rolling_drawdown_percentage.only_valid)
+    end
+
+    def rolling_drawdown_percentage
+      data_vector.rolling(:drawdown_percentage, 14)
+    end
+
+    private
 
     def filter_vector(vector:, date_range: nil, dataset_size: nil)
       v = date_range.nil? ? vector : vector[date_range.first.to_s..date_range.last.to_s]
@@ -92,33 +100,14 @@ module Darby
       end
     end
 
-    # def rolling_returns(time_range:)
-    #   period = time_range_to_days(time_range: time_range)
-    #   data_vector.rolling(:returns, period)
-    # end
-
-    # def rolling_annualized_returns(time_range:)
-    #   period = time_range_to_days(time_range: time_range)
-    #   data_vector.rolling(:annualized_returns, period)
-    # end
-
-    def percent_change
-      data_vector.percent_change
+    def find_date(date:)
+      if data_vector.index.first > date
+        puts "lookback for #{date} is older than oldest date #{data_vector.index.first}. Using oldest date."
+        date = data_vector.index.first
+      end
+      date = date.to_date if date.is_a?(DateTime)
+      data_vector[date.to_s].blank? ? find_date(date: date - 1) : date
     end
-
-    def ytd
-      @ytd ||= (((percent_change[Date.today.year.to_s].cumsum * default_amount) + default_amount).last / default_amount).data.first
-    end
-
-    def volatility
-      root_mean_square(rolling_drawdown_percentage.only_valid)
-    end
-
-    def rolling_drawdown_percentage
-      data_vector.rolling(:drawdown_percentage, 14)
-    end
-
-    private
 
     def root_mean_square(array)
       Math.sqrt(array.reduce(0) { |acc, price| acc += price ** 2 } / array.size)
