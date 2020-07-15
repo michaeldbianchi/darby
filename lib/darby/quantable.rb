@@ -10,7 +10,7 @@ module Darby
     # rolling_10yr_return, rolling_5yr_return, rolling_1yr_return
 
     def plottable_df
-      Daru::DataFrame.new(index: normalized_data_vector.index, adjusted_close: normalized_data_vector)
+      Daru::DataFrame.new({adjusted_close: normalized_data_vector}, index: normalized_data_vector.index)
     end
 
     def stats_df(date_range: @date_range, dataset_size: @dataset_size)
