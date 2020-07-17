@@ -1,9 +1,11 @@
 /** @jsx jsx */
 
+
 // TODO: Get rid of this in preference of referencing theme's layout
 
 import React from "react"
 import { Global } from "@emotion/core"
+// @ts-ignore
 import { Box, Container, jsx } from "theme-ui"
 import "typeface-ibm-plex-sans"
 import SEO from "@lekoarts/gatsby-theme-minimal-blog/src/components/seo"
