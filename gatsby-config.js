@@ -6,13 +6,38 @@ const shouldAnalyseBundle = process.env.ANALYSE_BUNDLE
 
 module.exports = {
   siteMetadata: {
-    siteTitleAlt: `Minimal Blog - Gatsby Theme`,
+      // Used for the title template on pages other than the index site
+    siteTitle: `Darby`,
+    // Default title of the page
+    siteTitleAlt: `Darby Financial Analysis`,
+    // Will be used to generate absolute URLs for og:image etc.
+    siteUrl: `https://finance.michaeldbianchi.com`,
+    // Used for SEO
+    siteDescription: `Financial Analysis`,
+    // Will be set on the <html /> tag
+    siteLanguage: `en`,
+    // Used for og:image and must be placed inside the `static` folder
+    siteImage: `/banner.jpg`,
+    // Twitter Handle
+    author: `@michaeldbianchi`,
+    // Links displayed in the header on the right side
   },
   plugins: [
     {
       resolve: `@lekoarts/gatsby-theme-minimal-blog`,
       // See the theme's README for all available options
       options: {
+        externalLinks: [
+          // {
+          //   name: `Instagram`,
+          //   url: `https://www.instagram.com/michaeldbianchi/`,
+          // },
+          {
+            name: `GitHub`,
+            url: `https://github.com/michaeldbianchi/darby`,
+          }
+        ],
+        // Navigation links
         navigation: [
           {
             title: `Blog`,
@@ -21,18 +46,32 @@ module.exports = {
           {
             title: `About`,
             slug: `/about`,
-          },
-        ],
-        externalLinks: [
-          {
-            name: `Twitter`,
-            url: `https://twitter.com/lekoarts_de`,
-          },
-          {
-            name: `Instagram`,
-            url: `https://www.instagram.com/lekoarts.de/`,
-          },
-        ],
+          }
+        ],    
+        formatString: `YYYY-MM-DD`,
+        mdx: false,
+      },
+    },
+    `gatsby-transformer-json`,
+    {
+      resolve: "gatsby-plugin-page-creator",
+      options: {
+        path: `${__dirname}/content/finance`,
+      },
+    },
+    {
+      resolve: `gatsby-plugin-mdx`,
+      options: {
+        defaultLayouts: {
+          finance: require.resolve("./src/components/layout.tsx")
+        }
+      }
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `finance`,
+        path: `${__dirname}/content/finance`,
       },
     },
     {
