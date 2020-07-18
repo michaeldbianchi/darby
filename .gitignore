@@ -1,6 +1,6 @@
 **/*.ipynb_checkpoints/
 **/.bundle/**
-content/finance/**/*.json
+site/content/finance/**/*.json
 
 # Logs
 logs
