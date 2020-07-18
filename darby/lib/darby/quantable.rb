@@ -11,6 +11,7 @@ module Darby
     # rolling_10yr_return, rolling_5yr_return, rolling_1yr_return
 
     def write!
+      puts "Writing #{name} data to #{output_dir}"
       File.open(output_dir, "w") do |f|
         f.write(serialize.to_json)
       end
@@ -127,7 +128,7 @@ module Darby
     end
 
     def output_dir
-      File.join(PROJECT_ROOT, self.class.config["output_dir"], filename)
+      File.join(SITE_ROOT, self.class.config["output_dir"], filename)
     end
   end
 end

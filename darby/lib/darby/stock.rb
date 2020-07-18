@@ -28,7 +28,11 @@ module Darby
     end
 
     def timeseries
-      @timeseries ||= stock.timeseries(adjusted: true, outputsize: "full")
+      @timeseries ||= begin
+        retriable_with_context(:alpha_vantage) do
+          stock.timeseries(adjusted: true, outputsize: "full")
+        end
+      end
     end
 
     def adjusted_close

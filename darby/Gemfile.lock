@@ -100,7 +100,9 @@ GEM
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.3.0)
       loofah (~> 2.3)
+    rake (13.0.1)
     rbczmq (1.7.9)
+    retriable (3.1.2)
     rspec (3.9.0)
       rspec-core (~> 3.9.0)
       rspec-expectations (~> 3.9.0)
@@ -132,7 +134,9 @@ DEPENDENCIES
   global
   iruby
   pry-byebug
+  rake
   rbczmq
+  retriable
   rspec
   zeitwerk
 

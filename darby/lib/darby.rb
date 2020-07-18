@@ -1,13 +1,16 @@
 
-PROJECT_ROOT = File.join(File.dirname(__FILE__), '..')
+REPO_ROOT = File.join(File.dirname(__FILE__), "../..")
+PROJECT_ROOT = File.join(REPO_ROOT, "darby")
+SITE_ROOT = File.join(REPO_ROOT, "site")
+
 $:.unshift(File.join(PROJECT_ROOT, 'lib'))
 
-require 'pry'
 require 'active_model'
 require 'daru'
 require 'monkey_patch/daru_vector'
 
 require "initializers/global_config"
+require "initializers/retriable"
 
 require "zeitwerk"
 loader = Zeitwerk::Loader.for_gem
