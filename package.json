@@ -34,6 +34,7 @@
     "yarn": "^1.22.4"
   },
   "devDependencies": {
-    "cross-env": "^5.2.0"
+    "cross-env": "^5.2.0",
+    "gatsby-cli": "^2.12.62"
   }
 }

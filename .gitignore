@@ -1,4 +1,5 @@
 **/*.ipynb_checkpoints/
+content/finance/**/*.json
 
 # Logs
 logs

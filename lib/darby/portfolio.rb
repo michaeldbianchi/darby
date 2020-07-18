@@ -8,15 +8,34 @@ module Darby
     ALLOWED_ATTRIBUTES = REQUIRED_ATTRIBUTES
     CONFIG = :portfolios
 
-    validates_presence_of *REQUIRED_ATTRIBUTES
-    attr_accessor *ALLOWED_ATTRIBUTES
+    validates_presence_of(*REQUIRED_ATTRIBUTES)
+    attr_accessor(*ALLOWED_ATTRIBUTES)
 
     def data_vector(date_range: nil, dataset_size: nil)
-      @data_vector ||= begin
-        df = Daru::DataFrame.new(stock_hash)
+      df = Daru::DataFrame.new(stock_hash)
 
-        filter_vector(vector: df.vector_sum, date_range: date_range, dataset_size: dataset_size)
+      filter_vector(vector: df.vector_sum, date_range: date_range, dataset_size: dataset_size)
+    end
+
+    def normalized_df(date_range: nil)
+      normalized_stock_df(date_range: date_range).tap do |stock_df|
+        portfolio_vector = stock_df.vector_sum
+
+        stock_df.add_vector(name, portfolio_vector)
+        stock_df.name = "Hypothetical Growth"
       end
+    end
+
+    def normalized_stock_df(date_range: nil)
+      normalized_data = {}
+      index = nil
+      stocks.each do |stock|
+        normalized_data[stock.symbol] = stock.normalized_data_vector(date_range: date_range, weight: stock.weight)
+        index ||= normalized_data[stock.symbol].index
+      end
+
+      Daru::DataFrame.new(normalized_data, index: index)
+
     end
 
     def stock_hash
@@ -51,5 +70,8 @@ module Darby
       @earliest_date ||= timeseries_data.map { |timeseries| timeseries.map(&:first).min }
     end
 
+    def filename
+      "#{name.downcase}.json"
+    end
   end
 end

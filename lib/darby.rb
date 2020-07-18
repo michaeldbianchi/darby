@@ -13,4 +13,16 @@ require "zeitwerk"
 loader = Zeitwerk::Loader.for_gem
 loader.setup
 
-module Darby; end
+module Darby
+  class << self
+    def generate_analyzed_data
+      puts "Generating portfolio and stock data"
+      quantables.each(&:write!)
+      puts "Completed generating portfolio and stock data"
+    end
+
+    def quantables
+      @quantables ||= Darby::Stock.all + Darby::Portfolio.all
+    end
+  end
+end

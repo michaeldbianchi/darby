@@ -8,11 +8,15 @@ module Darby
     ALLOWED_ATTRIBUTES = REQUIRED_ATTRIBUTES + %i[date_range dataset_size weight]
     CONFIG = :stocks
 
-    validates_presence_of *REQUIRED_ATTRIBUTES
-    attr_accessor *ALLOWED_ATTRIBUTES
+    validates_presence_of(*REQUIRED_ATTRIBUTES)
+    attr_accessor(*ALLOWED_ATTRIBUTES)
 
     def data_vector(date_range: nil, dataset_size: nil)
       filter_vector(vector: adjusted_close_vector, date_range: date_range, dataset_size: dataset_size)
+    end
+
+    def normalized_df(date_range: nil)
+      Daru::DataFrame.new({ symbol => normalized_data_vector(date_range: date_range) }, name: symbol)
     end
 
     def stock
@@ -72,6 +76,10 @@ module Darby
 
     def adjusted_close_df
       @adjusted_close_df ||= Daru::DataFrame.new({adjusted_close: adjusted_close}, index: date_index)
+    end
+
+    def filename
+      "#{symbol.downcase}.json"
     end
   end
 end

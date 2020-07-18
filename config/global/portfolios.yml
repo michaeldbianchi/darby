@@ -14,3 +14,5 @@ default:
           weight: 0.2
   all:
     - *stock
+  
+  output_dir: content/finance/portfolios

@@ -1,5 +1,6 @@
 module Darby
   module Quantable
+    include Serializable
 
     delegate :default_amount, to: "Global.holdings"
 
@@ -8,6 +9,12 @@ module Darby
     # stats_df columns
     # rolling_drawdown_percentage, percent_change, std_dev
     # rolling_10yr_return, rolling_5yr_return, rolling_1yr_return
+
+    def write!
+      File.open(output_dir, "w") do |f|
+        f.write(serialize.to_json)
+      end
+    end
 
     def plottable_df
       Daru::DataFrame.new({adjusted_close: normalized_data_vector}, index: normalized_data_vector.index)
@@ -100,6 +107,12 @@ module Darby
       end
     end
 
+    def timeframe_to_date_range(timeframe:)
+      today = Date.today
+      (today - timeframe_to_days(timeframe: timeframe))..today
+
+    end
+
     def find_date(date:)
       if data_vector.index.first > date
         puts "lookback for #{date} is older than oldest date #{data_vector.index.first}. Using oldest date."
@@ -111,6 +124,10 @@ module Darby
 
     def root_mean_square(array)
       Math.sqrt(array.reduce(0) { |acc, price| acc += price ** 2 } / array.size)
+    end
+
+    def output_dir
+      File.join(PROJECT_ROOT, self.class.config["output_dir"], filename)
     end
   end
 end

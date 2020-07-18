@@ -8,3 +8,5 @@ default:
       symbol: "BND"
   all:
     - *stock
+
+  output_dir: content/finance/stocks

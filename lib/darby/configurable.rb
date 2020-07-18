@@ -12,6 +12,10 @@ module Darby
     end
 
     module ClassMethods
+      def config
+        Global.send(self::CONFIG)
+      end
+
       def valid
         @valid ||= all.select { |instance| puts instance; instance.valid? }
       end
