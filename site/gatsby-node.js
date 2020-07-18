@@ -29,7 +29,7 @@ exports.createPages = async ({ graphql, actions }) => {
 
   const { createPage } = actions
 
-  const result = await graphql(`
+  const portfolioResult = await graphql(`
     query {
       allPortfoliosJson {
         edges {
@@ -43,10 +43,36 @@ exports.createPages = async ({ graphql, actions }) => {
     }
   `)
 
-  result.data.allPortfoliosJson.edges.forEach(({ node }) => {
+  portfolioResult.data.allPortfoliosJson.edges.forEach(({ node }) => {
     createPage({
       path: node.fields.slug,
       component: path.resolve(`./src/templates/portfolio.js`),
+      context: {
+        // Data passed to context is available
+        // in page queries as GraphQL variables.
+        slug: node.fields.slug,
+      },
+    })
+  })
+
+  const stockResult = await graphql(`
+  query {
+    allStocksJson {
+      edges {
+        node {
+          fields {
+            slug
+          }
+        }
+      }
+    }
+  }
+`)
+
+  stockResult.data.allStocksJson.edges.forEach(({ node }) => {
+    createPage({
+      path: node.fields.slug,
+      component: path.resolve(`./src/templates/stock.js`),
       context: {
         // Data passed to context is available
         // in page queries as GraphQL variables.
