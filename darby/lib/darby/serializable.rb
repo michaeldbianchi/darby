@@ -33,8 +33,12 @@ module Darby
 
     def series_data(vector)
       vector.index.map(&:to_date).zip(vector).map do |date, value|
-        {x: date, y: value}
+        [date_to_ms_timestamp(date), value]
       end
+    end
+
+    def date_to_ms_timestamp(date)
+      date.to_time.to_i * 1000
     end
   end
 end

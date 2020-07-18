@@ -7,6 +7,9 @@ require "darby"
 require "pry"
 
 @s = Darby::Stock.all.first
+@p = Darby::Portfolio.all.last
+
 puts @s
+puts @p
 
 Pry.start

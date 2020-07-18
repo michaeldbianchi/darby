@@ -4,19 +4,24 @@ import HighchartsReact from 'highcharts-react-official'
 import { graphql } from 'gatsby'
 import Layout from "@lekoarts/gatsby-theme-minimal-blog/src/components/layout"
 export default function Portfolio({ data }) {
-  const post = data.portfoliosJson
-  console.log(post);
+  const portfolioData = data.portfoliosJson
+  const options = {
+    title: {
+      text: portfolioData.name
+    },
+    series: portfolioData.hypotheticalGrowth.series
+  
+  }
   return (
     <Layout>
       <div>Hi from portfolio template</div>
       <div>
-        <h1>name: {post.name}</h1>
-        {/* <h2>hypotheticalGrowth: {JSON.stringify(post.hypotheticalGrowth.series)}</h2> */}
+        <h1>name: {portfolioData.name}</h1>
         <div>
           <HighchartsReact
             highcharts={Highcharts}
-            options={post.hypotheticalGrowth}
-            constructorType = { 'stockChart' }
+            options={portfolioData.hypotheticalGrowth}
+            constructorType = { 'StockChart' }
           />
         </div>
       </div>
@@ -29,10 +34,7 @@ export const query = graphql`
     portfoliosJson(fields: { slug: { eq: $slug } }) {
       hypotheticalGrowth {
         series {
-          data {
-            x
-            y
-          }
+          data
           name
         }
       }

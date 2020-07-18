@@ -21,7 +21,7 @@ module Darby
       normalized_stock_df(date_range: date_range).tap do |stock_df|
         portfolio_vector = stock_df.vector_sum
 
-        stock_df.add_vector(name, portfolio_vector)
+        stock_df.add_vector(name, portfolio_vector) if stock_df.vectors.size > 1
         stock_df.name = "Hypothetical Growth"
       end
     end
