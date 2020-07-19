@@ -3,6 +3,25 @@ title: Portfolios
 slug: "/portfolios"
 ---
 
-Hi!
+import { graphql } from "gatsby"
+import Title from "@lekoarts/gatsby-theme-minimal-blog/src/components/title"
+
+<Title text="Portfolios" />
+
+Here's a paragraph, followed by a paragraph with data!
+<p>{JSON.stringify(props.data.allPortfoliosJson.nodes)}</p>
 
 This is a silly portfolio homepage.
+
+export const pageQuery = graphql`
+  query {
+    allPortfoliosJson {
+      nodes {
+        fields {
+          slug
+        }
+        name
+      }
+    }
+  }
+`
