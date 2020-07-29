@@ -3,15 +3,27 @@ title: Portfolios
 slug: "/portfolios"
 ---
 
-import { graphql } from "gatsby"
+import { graphql, Link } from "gatsby"
 import Title from "@lekoarts/gatsby-theme-minimal-blog/src/components/title"
+import PortfolioListItem from "../../../src/components/portfolio-list-item"
+import { Box } from "@theme-ui/components"
 
 <Title text="Portfolios" />
 
-Here's a paragraph, followed by a paragraph with data!
-<p>{JSON.stringify(props.data.allPortfoliosJson.nodes)}</p>
+Each portfolio listed below links to a page of detailed analysis showing the returns and risk of the portfolio.
 
-This is a silly portfolio homepage.
+<div>
+  {
+    props.data.allPortfoliosJson.nodes.map ( 
+      portfolio =>
+        <PortfolioListItem key={portfolio.fields.slug} portfolio={portfolio} />
+    )
+  }
+</div>
+
+If you would like to see an additional portfolio added, please [create an issue](https://github.com/michaeldbianchi/darby/issues) in the main [project page](https://github.com/michaeldbianchi/darby) or submit a PR.
+
+
 
 export const pageQuery = graphql`
   query {
