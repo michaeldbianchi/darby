@@ -14,7 +14,7 @@ end
 Retriable.configure do |c|
   c.on_retry = RETRY_PROC
   c.contexts[:alpha_vantage] = {
-    tries: 3,
+    tries: 10,
     base_interval: 20.0
   }
 end
