@@ -46,7 +46,11 @@ module.exports = {
           {
             title: `About`,
             slug: `/about`,
-          }
+          },
+          {
+            title: `Finance`,
+            slug: `/finance`
+          },
         ],    
         formatString: `YYYY-MM-DD`,
         mdx: false,
