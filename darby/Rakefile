@@ -6,4 +6,10 @@ namespace :darby do
     require "darby"
     Darby.generate_analyzed_data
   end
+
+  task :clean_content_directory do
+    $:.unshift("lib")
+    require "darby"
+     Darby.clean_content_directory
+  end
 end

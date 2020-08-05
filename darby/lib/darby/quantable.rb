@@ -12,7 +12,7 @@ module Darby
 
     def write!
       puts "Writing #{name} data to #{output_dir}"
-      File.open(output_dir, "w") do |f|
+      File.open(output_path, "w") do |f|
         f.write(serialize.to_json)
       end
     end
@@ -91,6 +91,10 @@ module Darby
     def rolling_drawdown_percentage
       data_vector.rolling(:drawdown_percentage, 14)
     end
+    
+    def output_dir
+      File.join(SITE_ROOT, self.class.config["output_dir"])
+    end
 
     private
 
@@ -111,7 +115,6 @@ module Darby
     def timeframe_to_date_range(timeframe:)
       today = Date.today
       (today - timeframe_to_days(timeframe: timeframe))..today
-
     end
 
     def find_date(date:)
@@ -127,8 +130,8 @@ module Darby
       Math.sqrt(array.reduce(0) { |acc, price| acc += price ** 2 } / array.size)
     end
 
-    def output_dir
-      File.join(SITE_ROOT, self.class.config["output_dir"], filename)
+    def output_path
+      File.join(output_dir, filename)
     end
   end
 end

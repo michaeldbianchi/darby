@@ -24,6 +24,14 @@ module Darby
       puts "Completed generating portfolio and stock data"
     end
 
+    def clean_content_directory
+      dirs = [Darby::Stock.all.first, Darby::Portfolio.all.first].map(&:output_dir)
+      dirs.each do |dir|
+        puts "Removing data files from #{dir}"
+        FileUtils.rm Dir.glob("#{dir}/*.json")
+      end
+    end
+
     def quantables
       @quantables ||= Darby::Stock.all + Darby::Portfolio.all
     end
