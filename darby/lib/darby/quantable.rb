@@ -51,14 +51,36 @@ module Darby
       vector * stock_count
     end
 
+    def returns_hash
+      {
+        "ytd": ytd,
+        "1y": returns_for_timeframe(timeframe: "1y"),
+        "3y": returns_for_timeframe(timeframe: "3y"),
+        "5y": returns_for_timeframe(timeframe: "5y"),
+        "10y": returns_for_timeframe(timeframe: "10y")
+      }
+    end
+
+    def annualized_returns_hash
+      {
+        "ytd": annualized_ytd,
+        "1y": annualized_returns_for_timeframe(timeframe: "1y"),
+        "3y": annualized_returns_for_timeframe(timeframe: "3y"),
+        "5y": annualized_returns_for_timeframe(timeframe: "5y"),
+        "10y": annualized_returns_for_timeframe(timeframe: "10y")
+      }
+    end
+
     def returns_for_timeframe(timeframe:)
       # needs a to_a bc for some reason datetimeindex doesn't implement last
       end_date = data_vector.index.to_a.last.to_date
-      start_date = end_date - timeframe_to_days(timeframe: timeframe)
+      start_date = end_date - timeframe(timeframe: timeframe)
       returns(start_date: start_date, end_date: end_date)
     end
 
     def returns(start_date:, end_date:)
+      return "N/A" if start_date < data_vector.index.first
+
       end_date = find_date(date: end_date)
       start_date = find_date(date: start_date)
       (data_vector[end_date.to_s] - data_vector[start_date.to_s]) / data_vector[start_date.to_s]
@@ -66,13 +88,15 @@ module Darby
 
     def annualized_returns_for_timeframe(timeframe:)
       end_date = data_vector.index.to_a.last.to_date
-      start_date = end_date - timeframe_to_days(timeframe: timeframe)
+      start_date = end_date - timeframe(timeframe: timeframe)
       annualized_returns(start_date: start_date, end_date: end_date)
     end
 
     def annualized_returns(start_date:, end_date:)
+      return "N/A" if start_date < data_vector.index.first
       end_date = find_date(date: end_date)
       start_date = find_date(date: start_date)
+
       ((1 + returns(start_date: start_date, end_date: end_date)) ** (365 / (end_date - start_date))) - 1
     end
 
@@ -82,6 +106,10 @@ module Darby
 
     def ytd
       returns(start_date: data_vector.index[Date.today.year.to_s].first, end_date: Date.today)
+    end
+
+    def annualized_ytd
+      annualized_returns(start_date: data_vector.index[Date.today.year.to_s].first, end_date: Date.today)
     end
 
     def volatility
@@ -96,6 +124,15 @@ module Darby
       File.join(SITE_ROOT, self.class.config["output_dir"])
     end
 
+    def timeframe(timeframe:)
+      case timeframe
+      when /^(\d+)y/i
+        $1.to_i.years
+      when /^(\d+)d/i
+        $1.to_i
+      end
+    end
+
     private
 
     def filter_vector(vector:, date_range: nil, dataset_size: nil)
@@ -103,18 +140,9 @@ module Darby
       dataset_size.nil? ? v : v.last(dataset_size)
     end
 
-    def timeframe_to_days(timeframe:)
-      case timeframe
-      when /^(\d+)y/i
-        365 * $1.to_i
-      when /^(\d+)d/i
-        $1.to_i
-      end
-    end
-
     def timeframe_to_date_range(timeframe:)
       today = Date.today
-      (today - timeframe_to_days(timeframe: timeframe))..today
+      (today - timeframe(timeframe: timeframe))..today
     end
 
     def find_date(date:)

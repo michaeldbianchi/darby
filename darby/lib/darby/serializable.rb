@@ -4,9 +4,9 @@ module Darby
       {
         name: name,
         hypotheticalGrowth: df_to_highchart_hash(normalized_df(date_range: timeframe_to_date_range(timeframe: '10y'))),
-        dailyTimeseries: nil,
-        annualizedReturns: nil,
-        totalReturns: nil,
+        dailyTimeseries: df_to_highchart_hash(raw_df),
+        annualizedReturns: hash_to_table(returns_hash),
+        totalReturns: hash_to_table(annualized_returns_hash),
       }
     end
 
@@ -17,6 +17,10 @@ module Darby
         },
         series: series(df)
       }
+    end
+
+    def hash_to_table(hash)
+      hash
     end
 
     def series(df)

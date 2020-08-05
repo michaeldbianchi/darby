@@ -53,6 +53,18 @@ module Darby
       @stocks_df ||= Daru::DataFrame.new(stock_hash, index: data_vector.index)
     end
 
+    def raw_stock_hash
+      @stock_hash ||= begin
+        stocks.each_with_object({}) do |stock, acc|
+          acc[stock.symbol] = stock.data_vector
+        end
+      end
+    end
+
+    def raw_df
+      @raw_df ||= Daru::DataFrame.new(stock_hash, index: data_vector.index, name: "Adjusted Close Prices")
+    end
+
     def stocks
       @stocks ||= holdings.map { |stock| Darby::Stock.new(stock) }
     end

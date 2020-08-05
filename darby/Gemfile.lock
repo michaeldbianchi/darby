@@ -127,6 +127,7 @@ PLATFORMS
 
 DEPENDENCIES
   activemodel
+  activesupport
   alphavantagerb
   daru!
   daru-view!

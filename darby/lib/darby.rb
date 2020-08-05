@@ -5,6 +5,8 @@ SITE_ROOT = File.join(REPO_ROOT, "site")
 
 $:.unshift(File.join(PROJECT_ROOT, 'lib'))
 
+require 'active_support'
+require 'active_support/core_ext'
 require 'active_model'
 require 'daru'
 require 'monkey_patch/daru_vector'

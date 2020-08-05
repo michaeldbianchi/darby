@@ -19,6 +19,10 @@ module Darby
       Daru::DataFrame.new({ symbol => normalized_data_vector(date_range: date_range) }, name: symbol)
     end
 
+    def raw_df
+      Daru::DataFrame.new({ symbol => data_vector }, name: symbol)
+    end
+
     def stock
       @stock ||= AlphaVantage.client.stock(symbol: symbol)
     end

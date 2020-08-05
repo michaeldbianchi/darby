@@ -1,15 +1,3 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env bash
 
-$:.unshift("lib")
-
-require "darby"
-
-require "pry"
-
-@s = Darby::Stock.all.first
-@p = Darby::Portfolio.all.last
-
-puts @s
-puts @p
-
-Pry.start
+bundle exec ruby ./bin/darby_startup
