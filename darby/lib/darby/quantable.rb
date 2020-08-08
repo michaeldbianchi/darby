@@ -149,6 +149,9 @@ module Darby
       if data_vector.index.first > date
         puts "lookback for #{date} is older than oldest date #{data_vector.index.first}. Using oldest date."
         date = data_vector.index.first
+      elsif data_vector.index.to_a.last < date
+        puts "lookback for #{date} is newer than most recent date #{data_vector.index.to_a.last}. Using most recent date."
+        date = data_vector.index.to_a.last
       end
       date = date.to_date if date.is_a?(DateTime)
       data_vector[date.to_s].blank? ? find_date(date: date - 1) : date
