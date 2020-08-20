@@ -32,6 +32,7 @@
     "highcharts-react-official": "^3.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "reaviz": "^8.1.8",
     "theme-ui": "^0.3.1",
     "yarn": "^1.22.4"
   },

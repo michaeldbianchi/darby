@@ -15,6 +15,10 @@ module Darby
       filter_vector(vector: adjusted_close_vector, date_range: date_range, dataset_size: dataset_size)
     end
 
+    def weights
+      {symbol => 1.0}
+    end
+
     def normalized_df(date_range: nil)
       Daru::DataFrame.new({ symbol => normalized_data_vector(date_range: date_range) }, name: symbol)
     end

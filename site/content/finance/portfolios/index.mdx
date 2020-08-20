@@ -6,6 +6,7 @@ slug: "/portfolios"
 import { graphql, Link } from "gatsby"
 import Title from "@lekoarts/gatsby-theme-minimal-blog/src/components/title"
 import PortfolioListItem from "../../../src/components/portfolio-list-item"
+import { Grid } from 'theme-ui'
 import { Box } from "@theme-ui/components"
 
 <Title text="Portfolios" />
@@ -13,12 +14,14 @@ import { Box } from "@theme-ui/components"
 Each portfolio listed below links to a page of detailed analysis showing the returns and risk of the portfolio.
 
 <div>
-  {
-    props.data.allPortfoliosJson.nodes.map ( 
-      portfolio =>
-        <PortfolioListItem key={portfolio.fields.slug} portfolio={portfolio} />
-    )
-  }
+  <Grid gap={50} columns={"repeat(auto-fill, 350px)"}>
+    {
+      props.data.allPortfoliosJson.nodes.map ( 
+        portfolio =>
+          <PortfolioListItem key={portfolio.fields.slug} portfolio={portfolio} />
+      )
+    }
+  </Grid>
 </div>
 
 If you would like to see an additional portfolio added, please [create an issue](https://github.com/michaeldbianchi/darby/issues) in the main [project page](https://github.com/michaeldbianchi/darby) or submit a PR.
@@ -31,6 +34,10 @@ export const pageQuery = graphql`
       nodes {
         fields {
           slug
+        }
+        holdings {
+          data
+          key
         }
         name
       }

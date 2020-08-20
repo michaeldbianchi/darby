@@ -17,6 +17,12 @@ module Darby
       filter_vector(vector: df.vector_sum, date_range: date_range, dataset_size: dataset_size)
     end
 
+    def weights
+      stocks.each_with_object({}) do |stock, weight_hash|
+        weight_hash[stock.symbol] = stock.weight
+      end
+    end
+
     def normalized_df(date_range: nil)
       normalized_stock_df(date_range: date_range).tap do |stock_df|
         portfolio_vector = stock_df.vector_sum
