@@ -1,0 +1,46 @@
+---
+title: Stocks
+slug: "/stocks"
+---
+
+import { graphql, Link } from "gatsby"
+import Title from "@lekoarts/gatsby-theme-minimal-blog/src/components/title"
+import PortfolioListItem from "../../../src/components/portfolio-list-item"
+import { Grid } from 'theme-ui'
+import { Box } from "@theme-ui/components"
+
+<Title text="Stocks" />
+
+Each stock listed below links to a page of detailed analysis showing the returns and risk of the stock.
+
+<div>
+  <Grid gap={50} columns={"repeat(auto-fill, 350px)"}>
+    {
+      props.data.allStocksJson.nodes.map ( 
+        stock =>
+          <PortfolioListItem key={stock.fields.slug} portfolio={stock} />
+      )
+    }
+  </Grid>
+</div>
+
+If you would like to see an additional stock added, please [create an issue](https://github.com/michaeldbianchi/darby/issues) in the main [project page](https://github.com/michaeldbianchi/darby) or submit a PR.
+
+
+
+export const pageQuery = graphql`
+  query {
+    allStocksJson {
+      nodes {
+        fields {
+          slug
+        }
+        holdings {
+          data
+          key
+        }
+        name
+      }
+    }
+  }
+`
