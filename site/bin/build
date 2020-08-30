@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 
+curl -o ./static/osx-setup.sh https://raw.githubusercontent.com/michaeldbianchi/dev/main/osx-setup.sh
+
 yarn install
 yarn run build

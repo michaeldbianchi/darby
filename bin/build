@@ -2,8 +2,6 @@
 
 ROOT=$PWD
 
-curl -o ./static/osx-setup.sh https://raw.githubusercontent.com/michaeldbianchi/dev/main/osx-setup.sh
-
 set -e
 
 cd darby
