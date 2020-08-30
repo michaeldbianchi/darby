@@ -69,6 +69,8 @@ typings/
 **/.cache
 public
 
+static/osx-setup.sh
+
 .idea
 .vscode
 .DS_Store
