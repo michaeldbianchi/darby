@@ -28,7 +28,7 @@
     "gatsby-plugin-sitemap": "^2.2.19",
     "gatsby-plugin-webpack-bundle-analyser-v2": "^1.1.10",
     "gatsby-transformer-json": "^2.4.11",
-    "highcharts": "^8.1.2",
+    "highcharts": "^9.0.0",
     "highcharts-react-official": "^3.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
